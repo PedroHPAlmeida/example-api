@@ -2,7 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.controller.dto.ClienteDto;
 import com.example.demo.controller.form.ClienteForm;
+import com.example.demo.controller.form.ClienteFormUpdate;
 import com.example.demo.entity.Cliente;
+import com.example.demo.exceptions.ClienteNotFoundException;
 import com.example.demo.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/clientes")
@@ -25,5 +28,10 @@ public class ClienteController {
         return ResponseEntity
                 .created(uri)
                 .body(new ClienteDto(cliente));
+    }
+
+    @GetMapping
+    public List<ClienteDto> listarTodos(){
+        return ClienteDto.converter(clienteService.listarTodos());
     }
 }
