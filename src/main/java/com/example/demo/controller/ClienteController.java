@@ -34,4 +34,14 @@ public class ClienteController {
     public List<ClienteDto> listarTodos(){
         return ClienteDto.converter(clienteService.listarTodos());
     }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<ClienteDto> buscarPorId(@PathVariable Long id){
+        try {
+            Cliente cliente = clienteService.buscarPorId(id);
+            return ResponseEntity.ok(new ClienteDto(cliente));
+        } catch (ClienteNotFoundException ex){
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
