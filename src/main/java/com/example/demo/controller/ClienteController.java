@@ -56,4 +56,14 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> deletarPorId(@PathVariable Long id){
+        try {
+            clienteService.deletarPorId(id);
+            return ResponseEntity.noContent().build();
+        } catch (ClienteNotFoundException ex){
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
