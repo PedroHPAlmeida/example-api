@@ -44,4 +44,16 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<ClienteDto> alterarPorId(@PathVariable Long id, @RequestBody ClienteFormUpdate clienteFormUpdate){
+        try {
+            Cliente cliente = clienteService.buscarPorId(id);
+            Cliente clienteAtualizado = clienteFormUpdate.converter(cliente);
+            clienteService.salvar(clienteAtualizado);
+            return ResponseEntity.ok(new ClienteDto(clienteAtualizado));
+        } catch (ClienteNotFoundException ex){
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
