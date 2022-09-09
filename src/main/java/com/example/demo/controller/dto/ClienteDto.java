@@ -13,7 +13,7 @@ public class ClienteDto {
 
     private String nome;
     private LocalDate dataNascimento;
-    private Character sexo;
+    private String sexo;
 
     public ClienteDto(Cliente cliente) {
         this.nome = cliente.getNome();

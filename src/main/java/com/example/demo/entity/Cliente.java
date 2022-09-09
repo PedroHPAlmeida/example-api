@@ -22,6 +22,6 @@ public class Cliente {
     @Column(name = "data_nascimento") // define como será o nome do campo no Banco de Dados
     private LocalDate dataNascimento;
 
-    private Character sexo;
+    private String sexo;
 
 }
