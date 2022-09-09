@@ -7,6 +7,7 @@ import com.example.demo.entity.Cliente;
 import com.example.demo.exceptions.ClienteNotFoundException;
 import com.example.demo.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping
+    @CacheEvict(value = "listaDeClientes", allEntries = true) // Invalida/Limpa o cache definido no parâmetro 'value'
     public ResponseEntity<ClienteDto> salvar(@RequestBody @Valid ClienteForm clienteForm, UriComponentsBuilder uriBuilder){
         Cliente cliente = clienteService.salvar(clienteForm.converter());
         URI uri = uriBuilder.path("/api/clientes/{id}").buildAndExpand(cliente.getId()).toUri(); // Retorna no cabeçalho de resposta da requisição a URL para buscar o recurso que acabou de ser criado
@@ -49,6 +51,7 @@ public class ClienteController {
     }
 
     @PutMapping(path = "/{id}")
+    @CacheEvict(value = "listaDeClientes", allEntries = true)
     public ResponseEntity<ClienteDto> alterarPorId(@PathVariable Long id, @RequestBody @Valid ClienteFormUpdate clienteFormUpdate){
         try {
             Cliente cliente = clienteService.buscarPorId(id);
@@ -61,6 +64,7 @@ public class ClienteController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @CacheEvict(value = "listaDeClientes", allEntries = true)
     public ResponseEntity<?> deletarPorId(@PathVariable Long id){
         try {
             clienteService.deletarPorId(id);
