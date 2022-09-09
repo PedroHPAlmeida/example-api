@@ -11,6 +11,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +42,12 @@ public class ClienteController {
     @GetMapping
     @Cacheable(value = "listaDeClientes") // Parâmetro 'value' servirá como um id para o cache, para que ele seja diferenciado dos demais métodos que usarem cache
     @ResponseStatus(HttpStatus.OK)
-    public Page<ClienteDto> listarTodos(Pageable paginacao){ // O parâmetro Pageable não deve ser anotado com @ResquestParam(required = false), o campo já é opcional por padrão, caso adicione a anotação causará um erro se o usuário não enviar parâmetros de ordenação (page, size, sort)
+    public Page<ClienteDto> listarTodos(
+            @PageableDefault(
+                    page = 0, // O padrão já é a página 0 (ZERO)
+                    size = 5,
+                    sort = {"sexo", "nome"}, // A lista será ordenada por padrão por cada um dos atributos do array, caso o cliente da API não envie nenhum parâmetro
+                    direction = Sort.Direction.ASC) Pageable paginacao){ // O parâmetro Pageable não deve ser anotado com @ResquestParam(required = false), o campo já é opcional por padrão, caso adicione a anotação causará um erro se o usuário não enviar parâmetros de ordenação (page, size, sort)
         return ClienteDto.converter(clienteService.listarTodos(paginacao));
     }
 
