@@ -9,6 +9,8 @@ import com.example.demo.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +18,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/clientes")
@@ -39,8 +40,8 @@ public class ClienteController {
     @GetMapping
     @Cacheable(value = "listaDeClientes") // Parâmetro 'value' servirá como um id para o cache, para que ele seja diferenciado dos demais métodos que usarem cache
     @ResponseStatus(HttpStatus.OK)
-    public List<ClienteDto> listarTodos(){
-        return ClienteDto.converter(clienteService.listarTodos());
+    public Page<ClienteDto> listarTodos(Pageable paginacao){ // O parâmetro Pageable não deve ser anotado com @ResquestParam(required = false), o campo já é opcional por padrão, caso adicione a anotação causará um erro se o usuário não enviar parâmetros de ordenação (page, size, sort)
+        return ClienteDto.converter(clienteService.listarTodos(paginacao));
     }
 
     @GetMapping(path = "/{id}")

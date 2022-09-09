@@ -4,9 +4,10 @@ import com.example.demo.entity.Cliente;
 import com.example.demo.exceptions.ClienteNotFoundException;
 import com.example.demo.repository.IClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,8 +20,8 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public List<Cliente> listarTodos(){
-        return clienteRepository.findAll();
+    public Page<Cliente> listarTodos(Pageable pageable){
+        return clienteRepository.findAll(pageable);
     }
 
     public Cliente buscarPorId(Long id) throws ClienteNotFoundException{
