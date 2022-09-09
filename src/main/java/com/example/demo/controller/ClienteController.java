@@ -47,7 +47,7 @@ public class ClienteController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<ClienteDto> alterarPorId(@PathVariable Long id, @RequestBody ClienteFormUpdate clienteFormUpdate){
+    public ResponseEntity<ClienteDto> alterarPorId(@PathVariable Long id, @RequestBody @Valid ClienteFormUpdate clienteFormUpdate){
         try {
             Cliente cliente = clienteService.buscarPorId(id);
             Cliente clienteAtualizado = clienteFormUpdate.converter(cliente);
