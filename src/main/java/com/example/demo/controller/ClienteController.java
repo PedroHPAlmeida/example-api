@@ -9,6 +9,7 @@ import com.example.demo.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -26,6 +27,7 @@ public class ClienteController {
 
     @PostMapping
     @CacheEvict(value = "listaDeClientes", allEntries = true) // Invalida/Limpa o cache definido no parâmetro 'value'
+    @ResponseStatus(HttpStatus.CREATED) // Para o correto funcionamento (geração do Swagger) do Spring Doc devemos anotar todos os métodos com @ResponseStatus, mesmo que pareça redundante
     public ResponseEntity<ClienteDto> salvar(@RequestBody @Valid ClienteForm clienteForm, UriComponentsBuilder uriBuilder){
         Cliente cliente = clienteService.salvar(clienteForm.converter());
         URI uri = uriBuilder.path("/api/clientes/{id}").buildAndExpand(cliente.getId()).toUri(); // Retorna no cabeçalho de resposta da requisição a URL para buscar o recurso que acabou de ser criado
@@ -36,11 +38,13 @@ public class ClienteController {
 
     @GetMapping
     @Cacheable(value = "listaDeClientes") // Parâmetro 'value' servirá como um id para o cache, para que ele seja diferenciado dos demais métodos que usarem cache
+    @ResponseStatus(HttpStatus.OK)
     public List<ClienteDto> listarTodos(){
         return ClienteDto.converter(clienteService.listarTodos());
     }
 
     @GetMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ClienteDto> buscarPorId(@PathVariable Long id){
         try {
             Cliente cliente = clienteService.buscarPorId(id);
@@ -52,6 +56,7 @@ public class ClienteController {
 
     @PutMapping(path = "/{id}")
     @CacheEvict(value = "listaDeClientes", allEntries = true)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<ClienteDto> alterarPorId(@PathVariable Long id, @RequestBody @Valid ClienteFormUpdate clienteFormUpdate){
         try {
             Cliente cliente = clienteService.buscarPorId(id);
@@ -65,6 +70,7 @@ public class ClienteController {
 
     @DeleteMapping(path = "/{id}")
     @CacheEvict(value = "listaDeClientes", allEntries = true)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<?> deletarPorId(@PathVariable Long id){
         try {
             clienteService.deletarPorId(id);
