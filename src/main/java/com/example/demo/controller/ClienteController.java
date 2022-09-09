@@ -7,6 +7,7 @@ import com.example.demo.entity.Cliente;
 import com.example.demo.exceptions.ClienteNotFoundException;
 import com.example.demo.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,6 +33,7 @@ public class ClienteController {
     }
 
     @GetMapping
+    @Cacheable(value = "listaDeClientes") // Parâmetro 'value' servirá como um id para o cache, para que ele seja diferenciado dos demais métodos que usarem cache
     public List<ClienteDto> listarTodos(){
         return ClienteDto.converter(clienteService.listarTodos());
     }

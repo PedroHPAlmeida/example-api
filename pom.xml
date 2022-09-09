@@ -35,6 +35,13 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
+		<!-- Cache -->
+		<!-- Para fins de desenvolvimento não é necessário adicionar nenhum provedor de cache, por exemplo, o Redis. O Spring utiliza a própria memória para armazena cache, porém, em proução devemos usar um provedor adequado -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+
 		<!-- Banco de Dados -->
 		<dependency>
 			<groupId>com.h2database</groupId>
