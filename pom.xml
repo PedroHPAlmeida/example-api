@@ -42,6 +42,12 @@
 			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
 
+		<!-- Security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
 		<!-- Spring Doc - Swagger -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
