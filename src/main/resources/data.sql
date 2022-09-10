@@ -8,3 +8,5 @@ INSERT INTO CLIENTES(nome, data_nascimento, sexo) VALUES ('Lucas Mendes', '1980-
 INSERT INTO CLIENTES(nome, data_nascimento, sexo) VALUES ('Jorge Oliveira', '1982-04-17', 'm');
 INSERT INTO CLIENTES(nome, data_nascimento, sexo) VALUES ('Mateus Ferreira', '1966-12-22', 'm');
 INSERT INTO CLIENTES(nome, data_nascimento, sexo) VALUES ('Gustavo Azevedo', '1969-08-24', 'm');
+
+INSERT INTO USUARIOS(nome, email, senha) VALUES ('Administrador do Sistema', 'admin@email.com', '$2a$10$877Aw45Gi4kkd.ay119Tme0X2ii49.UMySFBKG4EUN0Lhb7Ue3wgG') // Senha 'admin' criptografada com a classe BCryptPasswordEncoder
