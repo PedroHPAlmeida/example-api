@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Cliente;
-import com.example.demo.exceptions.ClienteNotFoundException;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repository.IClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,15 +24,15 @@ public class ClienteService {
         return clienteRepository.findAll(pageable);
     }
 
-    public Cliente buscarPorId(Long id) throws ClienteNotFoundException{
+    public Cliente buscarPorId(Long id) throws ResourceNotFoundException {
         Optional<Cliente> cliente = clienteRepository.findById(id);
         if(cliente.isPresent()){
             return cliente.get();
         }
-        throw new ClienteNotFoundException("Cliente não encontrado!");
+        throw new ResourceNotFoundException("Cliente não encontrado!");
     }
 
-    public void deletarPorId(Long id) throws ClienteNotFoundException{
+    public void deletarPorId(Long id) throws ResourceNotFoundException {
         Cliente cliente = this.buscarPorId(id);
         clienteRepository.delete(cliente);
     }

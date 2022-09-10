@@ -4,7 +4,7 @@ import com.example.demo.controller.dto.ClienteDto;
 import com.example.demo.controller.form.ClienteForm;
 import com.example.demo.controller.form.ClienteFormUpdate;
 import com.example.demo.entity.Cliente;
-import com.example.demo.exceptions.ClienteNotFoundException;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -57,7 +57,7 @@ public class ClienteController {
         try {
             Cliente cliente = clienteService.buscarPorId(id);
             return ResponseEntity.ok(new ClienteDto(cliente));
-        } catch (ClienteNotFoundException ex){
+        } catch (ResourceNotFoundException ex){
             return ResponseEntity.notFound().build();
         }
     }
@@ -71,7 +71,7 @@ public class ClienteController {
             Cliente clienteAtualizado = clienteFormUpdate.converter(cliente);
             clienteService.salvar(clienteAtualizado);
             return ResponseEntity.ok(new ClienteDto(clienteAtualizado));
-        } catch (ClienteNotFoundException ex){
+        } catch (ResourceNotFoundException ex){
             return ResponseEntity.notFound().build();
         }
     }
@@ -83,7 +83,7 @@ public class ClienteController {
         try {
             clienteService.deletarPorId(id);
             return ResponseEntity.noContent().build();
-        } catch (ClienteNotFoundException ex){
+        } catch (ResourceNotFoundException ex){
             return ResponseEntity.notFound().build();
         }
     }
