@@ -1,5 +1,6 @@
-package com.example.demo.config.validation;
+package com.example.demo.shared;
 
+import com.example.demo.shared.dto.ErroDeFormularioDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

@@ -1,4 +1,4 @@
-package com.example.demo.config.validation;
+package com.example.demo.shared.dto;
 
 import lombok.Getter;
 
