@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.controller.form.ClienteFormUpdate;
 import com.example.demo.entity.Cliente;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repository.IClienteRepository;
@@ -27,6 +28,11 @@ public class ClienteService {
     public Cliente buscarPorId(Long id) {
         return clienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
+    }
+
+    public Cliente alterarPorId(Long id, ClienteFormUpdate clienteAtualizado) {
+        Cliente cliente = this.buscarPorId(id);
+        return this.salvar(clienteAtualizado.converter(cliente));
     }
 
     public void deletarPorId(Long id) {

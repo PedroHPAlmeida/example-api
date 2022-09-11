@@ -59,12 +59,9 @@ public class ClienteController {
 
     @PutMapping(path = "/{id}")
     @CacheEvict(value = "listaDeClientes", allEntries = true)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public ClienteDto alterarPorId(@PathVariable Long id, @RequestBody @Valid ClienteFormUpdate clienteFormUpdate){
-        Cliente cliente = clienteService.buscarPorId(id);
-        Cliente clienteAtualizado = clienteFormUpdate.converter(cliente);
-        clienteService.salvar(clienteAtualizado);
-        return new ClienteDto(clienteAtualizado);
+        return new ClienteDto(clienteService.alterarPorId(id, clienteFormUpdate));
     }
 
     @DeleteMapping(path = "/{id}")
