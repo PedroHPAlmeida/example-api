@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -24,12 +23,9 @@ public class ClienteService {
         return clienteRepository.findAll(pageable);
     }
 
-    public Cliente buscarPorId(Long id) throws ResourceNotFoundException {
-        Optional<Cliente> cliente = clienteRepository.findById(id);
-        if(cliente.isPresent()){
-            return cliente.get();
-        }
-        throw new ResourceNotFoundException("Cliente não encontrado!");
+    public Cliente buscarPorId(Long id) {
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
     }
 
     public void deletarPorId(Long id) throws ResourceNotFoundException {

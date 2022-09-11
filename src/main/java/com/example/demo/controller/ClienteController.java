@@ -53,38 +53,24 @@ public class ClienteController {
 
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ClienteDto> buscarPorId(@PathVariable Long id){
-        try {
-            Cliente cliente = clienteService.buscarPorId(id);
-            return ResponseEntity.ok(new ClienteDto(cliente));
-        } catch (ResourceNotFoundException ex){
-            return ResponseEntity.notFound().build();
-        }
+    public ClienteDto buscarPorId(@PathVariable Long id) throws ResourceNotFoundException {
+        return new ClienteDto(clienteService.buscarPorId(id));
     }
 
     @PutMapping(path = "/{id}")
     @CacheEvict(value = "listaDeClientes", allEntries = true)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<ClienteDto> alterarPorId(@PathVariable Long id, @RequestBody @Valid ClienteFormUpdate clienteFormUpdate){
-        try {
-            Cliente cliente = clienteService.buscarPorId(id);
-            Cliente clienteAtualizado = clienteFormUpdate.converter(cliente);
-            clienteService.salvar(clienteAtualizado);
-            return ResponseEntity.ok(new ClienteDto(clienteAtualizado));
-        } catch (ResourceNotFoundException ex){
-            return ResponseEntity.notFound().build();
-        }
+    public ClienteDto alterarPorId(@PathVariable Long id, @RequestBody @Valid ClienteFormUpdate clienteFormUpdate){
+        Cliente cliente = clienteService.buscarPorId(id);
+        Cliente clienteAtualizado = clienteFormUpdate.converter(cliente);
+        clienteService.salvar(clienteAtualizado);
+        return new ClienteDto(clienteAtualizado);
     }
 
     @DeleteMapping(path = "/{id}")
     @CacheEvict(value = "listaDeClientes", allEntries = true)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<?> deletarPorId(@PathVariable Long id){
-        try {
-            clienteService.deletarPorId(id);
-            return ResponseEntity.noContent().build();
-        } catch (ResourceNotFoundException ex){
-            return ResponseEntity.notFound().build();
-        }
+    public void deletarPorId(@PathVariable Long id){
+        clienteService.deletarPorId(id);
     }
 }
