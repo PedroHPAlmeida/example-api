@@ -9,4 +9,11 @@ INSERT INTO CLIENTES(nome, data_nascimento, sexo) VALUES ('Jorge Oliveira', '198
 INSERT INTO CLIENTES(nome, data_nascimento, sexo) VALUES ('Mateus Ferreira', '1966-12-22', 'm');
 INSERT INTO CLIENTES(nome, data_nascimento, sexo) VALUES ('Gustavo Azevedo', '1969-08-24', 'm');
 
-INSERT INTO USUARIOS(nome, email, senha) VALUES ('Administrador do Sistema', 'admin@email.com', '$2a$10$877Aw45Gi4kkd.ay119Tme0X2ii49.UMySFBKG4EUN0Lhb7Ue3wgG') // Senha 'admin' criptografada com a classe BCryptPasswordEncoder
+INSERT INTO USUARIOS(nome, email, senha) VALUES ('Administrador do Sistema', 'admin@email.com', '$2a$10$877Aw45Gi4kkd.ay119Tme0X2ii49.UMySFBKG4EUN0Lhb7Ue3wgG'); -- Senha 'admin' criptografada com a classe BCryptPasswordEncoder
+INSERT INTO USUARIOS(nome, email, senha) VALUES ('Usuário Normal', 'user@email.com', '$2a$10$Nx5UkFMqU78H1HzvwdzbnuJn3GDN.uhnkvhW42J2w1Ji7RPWtTsAa'); -- Senha 'user' criptografada com a classe BCryptPasswordEncoder
+
+INSERT INTO PERFIS(nome) VALUES ('ROLE_ADMIN'); -- Para funcionar corretamente o nome do perfil deve ser salvo no BD com o prefixo 'ROLE'
+INSERT INTO PERFIS(nome) VALUES ('ROLE_NORMAL');
+
+INSERT INTO USUARIOS_PERFIS(usuario_id, perfis_id) VALUES (1, 1);
+INSERT INTO USUARIOS_PERFIS(usuario_id, perfis_id) VALUES (2, 2);
