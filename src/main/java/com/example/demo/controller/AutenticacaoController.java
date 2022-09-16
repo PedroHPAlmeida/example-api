@@ -4,6 +4,7 @@ import com.example.demo.config.security.TokenService;
 import com.example.demo.controller.dto.TokenDto;
 import com.example.demo.controller.form.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/api/auth")
+@Profile("prd")
 public class AutenticacaoController {
 
     @Autowired
