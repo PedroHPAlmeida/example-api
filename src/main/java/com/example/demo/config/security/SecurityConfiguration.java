@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
-@Profile("prd")
+@Profile(value = {"prd", "test"})
 public class SecurityConfiguration {
 
     @Autowired
