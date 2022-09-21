@@ -9,6 +9,12 @@ INSERT INTO CLIENTES(nome, data_nascimento, sexo) VALUES ('Jorge Oliveira', '198
 INSERT INTO CLIENTES(nome, data_nascimento, sexo) VALUES ('Mateus Ferreira', '1966-12-22', 'm');
 INSERT INTO CLIENTES(nome, data_nascimento, sexo) VALUES ('Gustavo Azevedo', '1969-08-24', 'm');
 
+INSERT INTO PRODUTOS(nome, preco) VALUES ('Arroz', 8.0);
+INSERT INTO PRODUTOS(nome, preco) VALUES ('Feijão', 5.0);
+INSERT INTO PRODUTOS(nome, preco) VALUES ('Macarrão', 7.0);
+INSERT INTO PRODUTOS(nome, preco) VALUES ('Óleo', 4.5);
+INSERT INTO PRODUTOS(nome, preco) VALUES ('Farinha', 2.5);
+
 INSERT INTO USUARIOS(nome, email, senha) VALUES ('Administrador do Sistema', 'admin@email.com', '$2a$10$877Aw45Gi4kkd.ay119Tme0X2ii49.UMySFBKG4EUN0Lhb7Ue3wgG'); -- Senha 'admin' criptografada com a classe BCryptPasswordEncoder
 INSERT INTO USUARIOS(nome, email, senha) VALUES ('Usuário Normal', 'user@email.com', '$2a$10$Nx5UkFMqU78H1HzvwdzbnuJn3GDN.uhnkvhW42J2w1Ji7RPWtTsAa'); -- Senha 'user' criptografada com a classe BCryptPasswordEncoder
 
