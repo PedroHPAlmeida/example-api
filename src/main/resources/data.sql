@@ -15,6 +15,18 @@ INSERT INTO PRODUTOS(nome, preco) VALUES ('Macarrão', 7.0);
 INSERT INTO PRODUTOS(nome, preco) VALUES ('Óleo', 4.5);
 INSERT INTO PRODUTOS(nome, preco) VALUES ('Farinha', 2.5);
 
+INSERT INTO PEDIDOS(data, id_cliente) VALUES (CURRENT_DATE, 1);
+INSERT INTO PEDIDOS(data, id_cliente) VALUES (CURRENT_DATE, 3);
+INSERT INTO PEDIDOS(data, id_cliente) VALUES (CURRENT_DATE, 5);
+
+INSERT INTO ITENS_PEDIDOS(preco_unitario, quantidade, id_pedido, id_produto) VALUES (8.0, 2, 1, 1);
+INSERT INTO ITENS_PEDIDOS(preco_unitario, quantidade, id_pedido, id_produto) VALUES (5.0, 3, 1, 2);
+INSERT INTO ITENS_PEDIDOS(preco_unitario, quantidade, id_pedido, id_produto) VALUES (7.0, 5, 1, 3);
+INSERT INTO ITENS_PEDIDOS(preco_unitario, quantidade, id_pedido, id_produto) VALUES (8.0, 5, 2, 1);
+INSERT INTO ITENS_PEDIDOS(preco_unitario, quantidade, id_pedido, id_produto) VALUES (2.5, 3, 2, 5);
+INSERT INTO ITENS_PEDIDOS(preco_unitario, quantidade, id_pedido, id_produto) VALUES (4.5, 7, 3, 4);
+INSERT INTO ITENS_PEDIDOS(preco_unitario, quantidade, id_pedido, id_produto) VALUES (7.0, 3, 3, 3);
+
 INSERT INTO USUARIOS(nome, email, senha) VALUES ('Administrador do Sistema', 'admin@email.com', '$2a$10$877Aw45Gi4kkd.ay119Tme0X2ii49.UMySFBKG4EUN0Lhb7Ue3wgG'); -- Senha 'admin' criptografada com a classe BCryptPasswordEncoder
 INSERT INTO USUARIOS(nome, email, senha) VALUES ('Usuário Normal', 'user@email.com', '$2a$10$Nx5UkFMqU78H1HzvwdzbnuJn3GDN.uhnkvhW42J2w1Ji7RPWtTsAa'); -- Senha 'user' criptografada com a classe BCryptPasswordEncoder
 
