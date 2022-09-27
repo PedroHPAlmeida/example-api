@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.form.ProdutoFormUpdate;
 import com.example.demo.entity.Produto;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repository.IProdutoRepository;
@@ -26,11 +25,6 @@ public class ProdutoService {
 
     public Page<Produto> listarTodos(Pageable pageable) {
         return produtoRepository.findAll(pageable);
-    }
-
-    public Produto alterarPorId(Long id, ProdutoFormUpdate produtoAtualizado) {
-        Produto produto = this.buscarPorId(id);
-        return this.salvar(produtoAtualizado.converter(produto));
     }
 
     public void deletarPorId(Long id) {

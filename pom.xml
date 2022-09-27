@@ -81,6 +81,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- ModelMapper -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
 		<!-- Desenvolvimento -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>

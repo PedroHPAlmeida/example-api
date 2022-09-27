@@ -5,6 +5,7 @@ import com.example.demo.controller.form.ProdutoForm;
 import com.example.demo.controller.form.ProdutoFormUpdate;
 import com.example.demo.entity.Produto;
 import com.example.demo.service.ProdutoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,6 +28,9 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @PostMapping
     @CacheEvict(value = "listaDeProdutos", allEntries = true)
     @ResponseStatus(HttpStatus.CREATED)
@@ -35,7 +39,7 @@ public class ProdutoController {
         URI uri = uriBuilder.path("/api/produtos/{id}").buildAndExpand(produto.getId()).toUri();
         return ResponseEntity
                 .created(uri)
-                .body(new ProdutoDto(produto));
+                .body(ProdutoDto.converter(produto, modelMapper));
     }
 
     @GetMapping
@@ -46,20 +50,22 @@ public class ProdutoController {
             size=5,
             sort= {"nome", "preco"},
             direction = Sort.Direction.ASC) Pageable pageable) {
-        return ProdutoDto.converter(produtoService.listarTodos(pageable));
+        return ProdutoDto.converter(produtoService.listarTodos(pageable), modelMapper);
     }
 
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ProdutoDto buscarPorId(@PathVariable Long id){
-        return new ProdutoDto(produtoService.buscarPorId(id));
+        return ProdutoDto.converter(produtoService.buscarPorId(id), modelMapper);
     }
 
     @PutMapping(path = "/{id}")
     @CacheEvict(value = "listaDeProdutos", allEntries = true)
     @ResponseStatus(HttpStatus.OK)
     public ProdutoDto alterarPorId(@PathVariable Long id, @RequestBody @Valid ProdutoFormUpdate produtoFormUpdate) {
-        return new ProdutoDto(produtoService.alterarPorId(id, produtoFormUpdate));
+        Produto produto = produtoService.buscarPorId(id);
+        modelMapper.map(produtoFormUpdate, produto);
+        return ProdutoDto.converter(produtoService.salvar(produto), modelMapper);
     }
 
     @DeleteMapping(path = "/{id}")
