@@ -3,6 +3,7 @@ package com.example.demo.controller.dto;
 import com.example.demo.entity.Pedido;
 import lombok.Getter;
 import lombok.Setter;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
@@ -11,17 +12,15 @@ import java.util.List;
 @Getter @Setter
 public class PedidoDto {
 
-    private String cliente;
+    private String clienteNome;
     private LocalDate data;
     private List<ItemPedidoDto> itens;
 
-    public PedidoDto(Pedido pedido) {
-        this.data = pedido.getData();
-        this.cliente = pedido.getCliente().getNome();
-        this.itens = ItemPedidoDto.converter(pedido.getItens());
+    public static PedidoDto converter(Pedido pedido, ModelMapper modelMapper) {
+        return modelMapper.map(pedido, PedidoDto.class);
     }
 
-    public static Page<PedidoDto> converter(Page<Pedido> pedidos) {
-        return pedidos.map(PedidoDto::new);
+    public static Page<PedidoDto> converter(Page<Pedido> pedidos, ModelMapper modelMapper) {
+        return pedidos.map(p -> PedidoDto.converter(p, modelMapper));
     }
 }

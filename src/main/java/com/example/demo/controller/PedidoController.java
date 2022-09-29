@@ -7,6 +7,7 @@ import com.example.demo.entity.Pedido;
 import com.example.demo.service.ClienteService;
 import com.example.demo.service.PedidoService;
 import com.example.demo.service.ProdutoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -35,6 +36,9 @@ public class PedidoController {
     @Autowired
     private ProdutoService produtoService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @PostMapping
     @CacheEvict(value = "listaDePedidos", allEntries = true)
     @ResponseStatus(HttpStatus.CREATED)
@@ -44,7 +48,7 @@ public class PedidoController {
         URI uri = uriBuilder.path("/api/pedidos/{id}").buildAndExpand(pedido.getId()).toUri();
         return ResponseEntity
                 .created(uri)
-                .body(new PedidoDto(pedido));
+                .body(PedidoDto.converter(pedido, modelMapper));
     }
 
     @GetMapping
@@ -55,13 +59,13 @@ public class PedidoController {
             size=5,
             sort= "data",
             direction = Sort.Direction.ASC) Pageable pageable) {
-        return PedidoDto.converter(pedidoService.listarTodos(pageable));
+        return PedidoDto.converter(pedidoService.listarTodos(pageable), modelMapper);
     }
 
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PedidoDto buscarPorId(@PathVariable Long id){
-        return new PedidoDto(pedidoService.buscarPorId(id));
+        return PedidoDto.converter(pedidoService.buscarPorId(id), modelMapper);
     }
 
     @DeleteMapping(path = "/{id}")
