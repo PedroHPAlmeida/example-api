@@ -35,7 +35,7 @@ public class ProdutoController {
     @CacheEvict(value = "listaDeProdutos", allEntries = true)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ProdutoDto> salvar(@RequestBody @Valid ProdutoForm produtoForm, UriComponentsBuilder uriBuilder){
-        Produto produto = produtoService.salvar(produtoForm.converter());
+        Produto produto = produtoService.salvar(produtoForm.converter(modelMapper));
         URI uri = uriBuilder.path("/api/produtos/{id}").buildAndExpand(produto.getId()).toUri();
         return ResponseEntity
                 .created(uri)
@@ -64,8 +64,7 @@ public class ProdutoController {
     @ResponseStatus(HttpStatus.OK)
     public ProdutoDto alterarPorId(@PathVariable Long id, @RequestBody @Valid ProdutoFormUpdate produtoFormUpdate) {
         Produto produto = produtoService.buscarPorId(id);
-        modelMapper.map(produtoFormUpdate, produto);
-        return ProdutoDto.converter(produtoService.salvar(produto), modelMapper);
+        return ProdutoDto.converter(produtoService.salvar(produtoFormUpdate.converter(produto, modelMapper)), modelMapper);
     }
 
     @DeleteMapping(path = "/{id}")

@@ -4,6 +4,7 @@ import com.example.demo.entity.Produto;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -14,13 +15,12 @@ import java.math.BigDecimal;
 public class ProdutoFormUpdate {
 
     @NotNull @NotEmpty @Length(min = 2, max = 255)
-    private String nome;
+    private String produtoNome;
     @Positive
     private BigDecimal preco;
 
-    public Produto converter(Produto produto){
-        produto.setNome(this.getNome());
-        produto.setPreco(this.getPreco());
+    public Produto converter(Produto produto, ModelMapper modelMapper){
+        modelMapper.map(this, produto);
         return produto;
     }
 }
