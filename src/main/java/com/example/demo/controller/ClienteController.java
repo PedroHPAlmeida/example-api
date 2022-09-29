@@ -36,7 +36,7 @@ public class ClienteController {
     @CacheEvict(value = "listaDeClientes", allEntries = true) // Invalida/Limpa o cache definido no parâmetro 'value'
     @ResponseStatus(HttpStatus.CREATED) // Para o correto funcionamento (geração do Swagger) do Spring Doc devemos anotar todos os métodos com @ResponseStatus, mesmo que pareça redundante
     public ResponseEntity<ClienteDto> salvar(@RequestBody @Valid ClienteForm clienteForm, UriComponentsBuilder uriBuilder){
-        Cliente cliente = clienteService.salvar(clienteForm.converter());
+        Cliente cliente = clienteService.salvar(clienteForm.converter(modelMapper));
         URI uri = uriBuilder.path("/api/clientes/{id}").buildAndExpand(cliente.getId()).toUri(); // Retorna no cabeçalho de resposta da requisição a URL para buscar o recurso que acabou de ser criado
         return ResponseEntity
                 .created(uri)
@@ -66,8 +66,7 @@ public class ClienteController {
     @ResponseStatus(HttpStatus.OK)
     public ClienteDto alterarPorId(@PathVariable Long id, @RequestBody @Valid ClienteFormUpdate clienteFormUpdate){
         Cliente cliente = clienteService.buscarPorId(id);
-        modelMapper.map(clienteFormUpdate, cliente);
-        return ClienteDto.converter(clienteService.salvar(cliente), modelMapper);
+        return ClienteDto.converter(clienteService.salvar(clienteFormUpdate.converter(cliente, modelMapper)), modelMapper);
     }
 
     @DeleteMapping(path = "/{id}")

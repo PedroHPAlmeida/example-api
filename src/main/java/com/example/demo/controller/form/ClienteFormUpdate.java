@@ -3,6 +3,7 @@ package com.example.demo.controller.form;
 import com.example.demo.entity.Cliente;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
+import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -22,10 +23,8 @@ public class ClienteFormUpdate {
     @Length(min = 1, max = 1)
     private String sexo;
 
-    public Cliente converter(Cliente cliente){
-        cliente.setNome(this.getNome());
-        cliente.setDataNascimento(this.getDataNascimento());
-        cliente.setSexo(this.getSexo());
+    public Cliente converter(Cliente cliente, ModelMapper modelMapper){
+        modelMapper.map(this, cliente);
         return cliente;
     }
 }
