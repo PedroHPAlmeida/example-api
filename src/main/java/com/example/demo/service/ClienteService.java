@@ -30,11 +30,6 @@ public class ClienteService {
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
     }
 
-    public Cliente alterarPorId(Long id, ClienteFormUpdate clienteAtualizado) {
-        Cliente cliente = this.buscarPorId(id);
-        return this.salvar(clienteAtualizado.converter(cliente));
-    }
-
     public void deletarPorId(Long id) {
         Cliente cliente = this.buscarPorId(id);
         clienteRepository.delete(cliente);

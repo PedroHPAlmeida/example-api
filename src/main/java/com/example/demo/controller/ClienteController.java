@@ -6,6 +6,7 @@ import com.example.demo.controller.form.ClienteFormUpdate;
 import com.example.demo.entity.Cliente;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.service.ClienteService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -28,6 +29,9 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @PostMapping
     @CacheEvict(value = "listaDeClientes", allEntries = true) // Invalida/Limpa o cache definido no parâmetro 'value'
     @ResponseStatus(HttpStatus.CREATED) // Para o correto funcionamento (geração do Swagger) do Spring Doc devemos anotar todos os métodos com @ResponseStatus, mesmo que pareça redundante
@@ -36,7 +40,7 @@ public class ClienteController {
         URI uri = uriBuilder.path("/api/clientes/{id}").buildAndExpand(cliente.getId()).toUri(); // Retorna no cabeçalho de resposta da requisição a URL para buscar o recurso que acabou de ser criado
         return ResponseEntity
                 .created(uri)
-                .body(new ClienteDto(cliente));
+                .body(ClienteDto.converter(cliente, modelMapper));
     }
 
     @GetMapping
@@ -48,20 +52,22 @@ public class ClienteController {
                     size = 5,
                     sort = {"sexo", "nome"}, // A lista será ordenada por padrão por cada um dos atributos do array, caso o cliente da API não envie nenhum parâmetro
                     direction = Sort.Direction.ASC) Pageable paginacao){ // O parâmetro Pageable não deve ser anotado com @ResquestParam(required = false), o campo já é opcional por padrão, caso adicione a anotação causará um erro se o usuário não enviar parâmetros de ordenação (page, size, sort)
-        return ClienteDto.converter(clienteService.listarTodos(paginacao));
+        return ClienteDto.converter(clienteService.listarTodos(paginacao), modelMapper);
     }
 
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ClienteDto buscarPorId(@PathVariable Long id) throws ResourceNotFoundException {
-        return new ClienteDto(clienteService.buscarPorId(id));
+        return ClienteDto.converter(clienteService.buscarPorId(id), modelMapper);
     }
 
     @PutMapping(path = "/{id}")
     @CacheEvict(value = "listaDeClientes", allEntries = true)
     @ResponseStatus(HttpStatus.OK)
     public ClienteDto alterarPorId(@PathVariable Long id, @RequestBody @Valid ClienteFormUpdate clienteFormUpdate){
-        return new ClienteDto(clienteService.alterarPorId(id, clienteFormUpdate));
+        Cliente cliente = clienteService.buscarPorId(id);
+        modelMapper.map(clienteFormUpdate, cliente);
+        return ClienteDto.converter(clienteService.salvar(cliente), modelMapper);
     }
 
     @DeleteMapping(path = "/{id}")
