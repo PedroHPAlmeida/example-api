@@ -33,4 +33,14 @@ public class ClienteControllerTest {
                         .status()
                         .is(201));
     }
+
+    @Test
+    public void deveriaRetornar404CasoOIdPassadoNaoExista() throws Exception{
+        URI uri = new URI("/api/clientes/0");
+        mockMvc.perform(MockMvcRequestBuilders
+                .get(uri))
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .is(404));
+    }
 }
