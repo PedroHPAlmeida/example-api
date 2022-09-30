@@ -81,6 +81,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency> <!-- Dependencia necessaria para testar endpoints que necessitam de autenticacao -->
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- ModelMapper -->
 		<dependency>
 			<groupId>org.modelmapper</groupId>
