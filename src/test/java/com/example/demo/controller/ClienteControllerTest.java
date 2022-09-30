@@ -74,4 +74,16 @@ public class ClienteControllerTest {
                         .status()
                         .is(200));
     }
+
+    @Test
+    @WithMockUser(value = "Admin", roles = "ADMIN")
+    public void deveriaRetornar204CasoOIdExistaEORegistroTenhaSidoDeletado() throws Exception {
+        salvarCliente();
+        URI uri = new URI("/api/clientes/1");
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete(uri))
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .is(204));
+    }
 }
