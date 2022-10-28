@@ -36,7 +36,7 @@ public class ClienteControllerTest {
     }
 
     @Test
-    public void deveriaDevolver200ComOsDadosDeClientesCorretos() throws Exception {
+    public void deveriaDevolver201ComOsDadosDeClienteCorretos() throws Exception {
         URI uri = new URI("/api/clientes");
         String json = "{\"nome\": \"Cliente\", \"dataNascimento\": \"2000-01-01\", \"sexo\": \"m\"}";
 
