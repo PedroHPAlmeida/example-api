@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class ProdutoServiceTest {
+class ProdutoServiceTest {
 
     @Autowired
     private ProdutoService produtoService;
@@ -28,7 +28,7 @@ public class ProdutoServiceTest {
     }
 
     @Test
-    public void deveriaRetornarUmProdutoAoBuscarPeloSeuId() {
+    void deveriaRetornarUmProdutoAoBuscarPeloSeuId() {
         salvarProduto();
         Produto produtoBuscado = produtoService.buscarPorId(1L);
         assertEquals(produto.getNome(), produtoBuscado.getNome());
@@ -36,7 +36,7 @@ public class ProdutoServiceTest {
     }
 
     @Test
-    public void deveriaDispararExceptionAoBuscarPorIdQueNaoExiste() {
+    void deveriaDispararExceptionAoBuscarPorIdQueNaoExiste() {
         assertThrows(ResourceNotFoundException.class, () -> produtoService.buscarPorId(1L));
     }
 }
