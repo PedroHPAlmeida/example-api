@@ -26,7 +26,7 @@ class ProdutoRepositoryTest {
 
     public void salvarProduto() {
         Produto produto = new Produto();
-        produto.setNome("Produto 1");
+        produto.setNome("Produto");
         produto.setPreco(new BigDecimal("10.0"));
         entityManager.persist(produto);
     }
@@ -36,6 +36,7 @@ class ProdutoRepositoryTest {
         salvarProduto();
         Optional<Produto> produto = produtoRepository.findById(1L);
         assertTrue(produto.isPresent());
-        assertEquals("Produto 1", produto.get().getNome());
+        System.out.println("=================================================================================================\n" + produto.get());
+        assertEquals("Produto", produto.get().getNome());
     }
 }
